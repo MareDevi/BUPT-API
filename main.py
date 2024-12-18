@@ -165,6 +165,3 @@ def download_file(file_name, storage_id, file_format):
     )
     with open(file_name, "wb") as file:
         file.write(response.content)
-
-
-get_assignment_detail("1868893862338715650")
