@@ -1,5 +1,5 @@
 # BPUT API for ucloud
-注：bupt_auth来自于https://qithub.com/Lynnette177/BUPT-AUTH
+注：bupt_auth来自于https://github.com/Lynnette177/BUPT-AUTH
 
 ## 接口信息
 
