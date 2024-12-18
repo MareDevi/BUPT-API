@@ -53,3 +53,16 @@
 
 获取当前学生的待办列表。
 
+---
+
+### download_file(file_name, storage_id, file_format)
+
+下载指定的文件。
+注：参数要与get_course_files等接口返回的信息一致
+
+**参数：**
+
+- `file_name`：要保存的文件名。
+- `storage_id`：文件的存储ID。
+- `file_format`：文件格式。
+
