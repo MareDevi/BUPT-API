@@ -1,7 +1,6 @@
 import json
 import requests
 import bupt_auth
-import tabulate
 
 
 try:
@@ -24,7 +23,8 @@ except FileNotFoundError:
         blade = account_data["blade"]
 
 ucloud_api_url = "https://apiucloud.bupt.edu.cn"
-ucloud_file_url = "https://fileucloud.bupt.edu.cn/ucloud/document/"
+ucloud_course_file_url = "https://fileucloud.bupt.edu.cn/ucloud/document/"
+ucloud_assignment_file_url = "https://apiucloud.bupt.edu.cn/blade-source/resource/filePath"
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0",
@@ -38,6 +38,8 @@ headers = {
 def get_courses():
     params = {
         "userId": user_id,
+        "size": 999999,
+        "current": 1,
     }
 
     response = requests.get(
@@ -124,12 +126,8 @@ def get_assignment_detail(assignment_id):
         pass
     else:
         print("Assignment Resource:")
-        table = [
-            [i["resourceId"], i["resourceName"], i["resourceType"]]
-            for i in data["assignmentResource"]
-        ]
-        header = ["Resource ID", "Resource Name", "Resource Type"]
-        print(tabulate.tabulate(table, header, tablefmt="grid"))
+        for i in data["assignmentResource"]:
+            print(i["resourceId"], i["resourceName"], i["resourceType"])
 
 
 def get_todo_list():
@@ -145,7 +143,7 @@ def get_todo_list():
         print(record)
 
 
-def download_file(file_name, storage_id, file_format):
+def download_course_file(file_name, storage_id, file_format):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -161,7 +159,22 @@ def download_file(file_name, storage_id, file_format):
     }
 
     response = requests.get(
-        ucloud_file_url + storage_id + "." + file_format, headers=headers
+        ucloud_course_file_url + storage_id + "." + file_format, headers=headers
     )
     with open(file_name, "wb") as file:
+        file.write(response.content)
+
+def download_assignment_file(filename, resourceId):
+    params = {
+        "resourceId": resourceId
+    }
+    res = requests.get(ucloud_assignment_file_url, params=params, headers=headers)
+
+    print(res.text)
+    file_url = res.json()["data"]
+    print(file_url)
+
+    response = requests.get(file_url)
+
+    with open(filename, "wb") as file:
         file.write(response.content)

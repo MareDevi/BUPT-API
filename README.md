@@ -55,14 +55,24 @@
 
 ---
 
-### download_file(file_name, storage_id, file_format)
+### download_course_file(file_name, storage_id, file_format)
 
-下载指定的文件。
-注：参数要与get_course_files等接口返回的信息一致
+下载指定课程的文件。
 
 **参数：**
 
 - `file_name`：要保存的文件名。
 - `storage_id`：文件的存储ID。
 - `file_format`：文件格式。
+
+---
+
+### download_assignment_file(filename, resourceId)
+
+下载指定作业的文件。
+
+**参数：**
+
+- `filename`：要保存的文件名。
+- `resourceId`：资源ID。
 
