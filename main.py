@@ -178,3 +178,18 @@ def download_assignment_file(filename, resourceId):
 
     with open(filename, "wb") as file:
         file.write(response.content)
+
+def get_notifications():
+    params = {
+        "userId": user_id,
+        "size": 999999,
+    }
+
+    response = requests.post(
+        ucloud_api_url + "/ykt-basics/api/inform/news/list",
+        headers=headers,
+        params=params,
+    )
+
+    for record in response.json()["data"]["records"]:
+        print(record)
