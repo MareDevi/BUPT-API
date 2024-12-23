@@ -1,5 +1,7 @@
-# BPUT API for ucloud
+# BPUT API
 注：bupt_auth来自于https://github.com/Lynnette177/BUPT-AUTH
+
+已添加教务系统认证功能
 
 ## 接口信息
 
@@ -76,3 +78,8 @@
 - `filename`：要保存的文件名。
 - `resourceId`：资源ID。
 
+---
+
+### get_notifications()
+
+获取教学云平台通知
