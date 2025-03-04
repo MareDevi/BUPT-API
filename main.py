@@ -120,14 +120,22 @@ def get_assignment_detail(assignment_id):
     )
     data = response.json()["data"]
 
-    print(data["assignmentTitle"], "\n", data["assignmentContent"])
-
-    if data["assignmentResource"] == []:
-        pass
-    else:
-        print("Assignment Resource:")
-        for i in data["assignmentResource"]:
-            print(i["resourceId"], i["resourceName"], i["resourceType"])
+    result = {
+        "title": data["assignmentTitle"],
+        "content": data["assignmentContent"],
+        "resources": []
+    }
+    
+    # Add resources if available
+    if data["assignmentResource"]:
+        for resource in data["assignmentResource"]:
+            result["resources"].append({
+                "resourceId": resource["resourceId"],
+                "resourceName": resource["resourceName"],
+                "resourceType": resource["resourceType"]
+            })
+    
+    return result
 
 
 def get_todo_list():
@@ -139,8 +147,12 @@ def get_todo_list():
         ucloud_api_url + "/ykt-site/site/student/undone", headers=headers, params=params
     )
 
+    todos = []
+
     for record in response.json()["data"]["undoneList"]:
-        print(record)
+        todos.append(record)
+    
+    return todos
 
 
 def download_course_file(file_name, storage_id, file_format):
